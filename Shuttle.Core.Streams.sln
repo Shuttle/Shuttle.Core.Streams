@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuttle.Core.Streams", "Shuttle.Core.Streams\Shuttle.Core.Streams.csproj", "{3876FFA3-E1F4-48B3-8FBE-327A12F0C7C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7330BAD8-61CE-4461-A6C5-7616B946B8CA}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuttle.Core.Streams.Tests", "Shuttle.Core.Streams.Tests\Shuttle.Core.Streams.Tests.csproj", "{9FAC3EED-99C6-45E0-A995-3AB15A81BA28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3876FFA3-E1F4-48B3-8FBE-327A12F0C7C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3876FFA3-E1F4-48B3-8FBE-327A12F0C7C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3876FFA3-E1F4-48B3-8FBE-327A12F0C7C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3876FFA3-E1F4-48B3-8FBE-327A12F0C7C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FAC3EED-99C6-45E0-A995-3AB15A81BA28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FAC3EED-99C6-45E0-A995-3AB15A81BA28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FAC3EED-99C6-45E0-A995-3AB15A81BA28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FAC3EED-99C6-45E0-A995-3AB15A81BA28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE52484C-3639-4790-817D-9388314A9329}
+	EndGlobalSection
+EndGlobal
