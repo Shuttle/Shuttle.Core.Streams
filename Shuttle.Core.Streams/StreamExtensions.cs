@@ -33,7 +33,7 @@ namespace Shuttle.Core.Streams
                 var ms = (MemoryStream) stream;
                 if (ms.TryGetBuffer(out var buffer))
                 {
-                    return new MemoryStream(buffer.Array, buffer.Offset, (int) ms.Position, false, true);
+                    return new MemoryStream(buffer.Array, buffer.Offset, (int) ms.Length, false, true);
                 }
             }
         
