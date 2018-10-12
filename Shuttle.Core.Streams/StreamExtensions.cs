@@ -31,7 +31,10 @@ namespace Shuttle.Core.Streams
             if (stream is MemoryStream)
             {
                 var ms = (MemoryStream) stream;
-                return new MemoryStream(ms.GetBuffer(), 0, (int) ms.Position, false, true);
+                if (ms.TryGetBuffer(out var buffer))
+                {
+                    return new MemoryStream(buffer.Array, buffer.Offset, (int) ms.Position, false, true);
+                }
             }
         
             return (MemoryStream)Copy(stream);
