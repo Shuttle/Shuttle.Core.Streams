@@ -18,6 +18,28 @@ namespace Shuttle.Core.Streams
             }
         }
 
+        /// <summary>
+        ///     Copies the stream to a new MemoryStream object without copying the internal buffer.
+        ///     This method returning the same result as the <see cref="Copy"/> method when the instance it not a <see cref="MemoryStream"/>
+        /// </summary>
+        /// <param name="stream">Input stream</param>
+        /// <returns>Memory stream</returns>
+        public static MemoryStream CopyMemoryStream(this Stream stream)
+        {
+            Guard.AgainstNull(stream, nameof(stream));
+
+            if (stream is MemoryStream)
+            {
+                var ms = (MemoryStream) stream;
+                if (ms.TryGetBuffer(out var buffer))
+                {
+                    return new MemoryStream(buffer.Array, buffer.Offset, (int) ms.Length, false, true);
+                }
+            }
+        
+            return (MemoryStream)Copy(stream);
+        }
+
         public static Stream Copy(this Stream stream)
         {
             Guard.AgainstNull(stream, nameof(stream));

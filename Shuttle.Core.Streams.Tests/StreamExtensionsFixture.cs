@@ -36,5 +36,25 @@ namespace Shuttle.Core.Streams.Tests
             Assert.AreEqual(0, copy.Position);
             Assert.AreEqual(5, stream.Position);
         }
+
+        [Test]
+        public void Should_be_able_to_make_a_readonly_copy_of_a_stream()
+        {
+            var bytes = new byte[] {0, 1, 2, 3, 4};
+            var stream = new MemoryStream(bytes, 0, bytes.Length, false, true);
+            var output = new MemoryStream();
+
+            stream.CopyTo(output);
+
+            Assert.AreEqual(5, output.Length);
+            Assert.AreEqual(5, output.Position);
+            Assert.AreEqual(5, stream.Position);
+
+            var copy = stream.CopyMemoryStream();
+
+            Assert.AreEqual(5, copy.Length);
+            Assert.AreEqual(0, copy.Position);
+            Assert.AreEqual(5, stream.Position);
+        }
     }
 }
