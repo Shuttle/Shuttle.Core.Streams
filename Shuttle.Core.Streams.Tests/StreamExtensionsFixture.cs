@@ -50,7 +50,7 @@ namespace Shuttle.Core.Streams.Tests
             Assert.AreEqual(5, output.Position);
             Assert.AreEqual(5, stream.Position);
 
-            var copy = stream.CopyMemoryStream();
+            var copy = stream.Copy();
 
             Assert.AreEqual(5, copy.Length);
             Assert.AreEqual(0, copy.Position);

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Shuttle.Core.Contract;
 
@@ -19,46 +20,38 @@ namespace Shuttle.Core.Streams
         }
 
         /// <summary>
-        ///     Copies the stream to a new MemoryStream object without copying the internal buffer.
-        ///     This method returning the same result as the <see cref="Copy"/> method when the instance it not a <see cref="MemoryStream"/>
+        /// Returns a copy of the given stream.  The underlying type used is a `MemoryStream` and if the given `stream` is a `MemoryStream` the operation will attempt to use internal buffer if exposed and return a read-only stream; else a standard `MemoryStream` is used and the `stream` data copied to the that.
         /// </summary>
-        /// <param name="stream">Input stream</param>
-        /// <returns>Memory stream</returns>
-        public static MemoryStream CopyMemoryStream(this Stream stream)
-        {
-            Guard.AgainstNull(stream, nameof(stream));
-
-            if (stream is MemoryStream)
-            {
-                var ms = (MemoryStream) stream;
-                if (ms.TryGetBuffer(out var buffer))
-                {
-                    return new MemoryStream(buffer.Array, buffer.Offset, (int) ms.Length, false, true);
-                }
-            }
-        
-            return (MemoryStream)Copy(stream);
-        }
-
+        /// <param name="stream">The `Stream` instance that contains the source data.</param>
+        /// <returns>A new `MemoryStream` object.</returns>
         public static Stream Copy(this Stream stream)
         {
             Guard.AgainstNull(stream, nameof(stream));
 
-            var result = new MemoryStream {Capacity = (int) stream.Length};
+            MemoryStream result;
 
-            var originalPosition = stream.Position;
-
-            try
+            if (stream is MemoryStream ms && ms.TryGetBuffer(out var buffer))
             {
-                stream.Seek(0, SeekOrigin.Begin);
-
-                stream.CopyTo(result);
-
-                result.Seek(0, SeekOrigin.Begin);
+                result = new MemoryStream(buffer.Array ?? throw new InvalidOperationException(Resources.CopyBufferArrayException), buffer.Offset, (int)ms.Length, false, true);
             }
-            finally
+            else
             {
-                stream.Seek(originalPosition, SeekOrigin.Begin);
+                result = new MemoryStream {Capacity = (int) stream.Length};
+
+                var originalPosition = stream.Position;
+
+                try
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    stream.CopyTo(result);
+
+                    result.Seek(0, SeekOrigin.Begin);
+                }
+                finally
+                {
+                    stream.Seek(originalPosition, SeekOrigin.Begin);
+                }
             }
 
             return result;
