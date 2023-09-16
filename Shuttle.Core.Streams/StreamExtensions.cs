@@ -40,35 +40,7 @@ namespace Shuttle.Core.Streams
         /// <returns>A new `MemoryStream` object.</returns>
         public static Stream Copy(this Stream stream)
         {
-            Guard.AgainstNull(stream, nameof(stream));
-
-            MemoryStream result;
-
-            if (stream is MemoryStream ms && ms.TryGetBuffer(out var buffer))
-            {
-                result = new MemoryStream(buffer.Array ?? throw new InvalidOperationException(Resources.CopyBufferArrayException), buffer.Offset, (int)ms.Length, false, true);
-            }
-            else
-            {
-                result = new MemoryStream {Capacity = (int) stream.Length};
-
-                var originalPosition = stream.Position;
-
-                try
-                {
-                    stream.Seek(0, SeekOrigin.Begin);
-
-                    stream.CopyTo(result);
-
-                    result.Seek(0, SeekOrigin.Begin);
-                }
-                finally
-                {
-                    stream.Seek(originalPosition, SeekOrigin.Begin);
-                }
-            }
-
-            return result;
+            return CopyAsync(stream, true).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -77,6 +49,11 @@ namespace Shuttle.Core.Streams
         /// <param name="stream">The `Stream` instance that contains the source data.</param>
         /// <returns>A new `MemoryStream` object.</returns>
         public static async Task<Stream> CopyAsync(this Stream stream)
+        {
+            return await CopyAsync(stream, false).ConfigureAwait(false);
+        }
+
+        private static async Task<Stream> CopyAsync(this Stream stream, bool sync)
         {
             Guard.AgainstNull(stream, nameof(stream));
 
@@ -96,7 +73,14 @@ namespace Shuttle.Core.Streams
                 {
                     stream.Seek(0, SeekOrigin.Begin);
 
-                    await stream.CopyToAsync(result);
+                    if (sync)
+                    {
+                        stream.CopyTo(result);
+                    }
+                    else
+                    {
+                        await stream.CopyToAsync(result).ConfigureAwait(false);
+                    }
 
                     result.Seek(0, SeekOrigin.Begin);
                 }
