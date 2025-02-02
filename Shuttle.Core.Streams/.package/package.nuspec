@@ -13,7 +13,7 @@
 		<repository type="git" url="https://github.com/shuttle/Shuttle.Core.Streams.git" />
 		<projectUrl>https://github.com/shuttle/Shuttle.Core.Streams</projectUrl>
 		<description>Stream infrastructure utilities.</description>
-		<copyright>Copyright (c) 2024, Eben Roux</copyright>
+		<copyright>Copyright (c) 2025, Eben Roux</copyright>
 		<tags>shuttle stream</tags>
 		<dependencies>
       <dependency id="Shuttle.Core.Contract" version="20.0.0" />
