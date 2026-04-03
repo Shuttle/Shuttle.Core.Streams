@@ -11,36 +11,36 @@ public static class StreamExtensions
         ///     `MemoryStream` the operation will attempt to use internal buffer if exposed and return a read-only stream; else a
         ///     standard `MemoryStream` is used and the `stream` data copied to the that.
         /// </summary>
-        /// <param name="stream">The `Stream` instance that contains the source data.</param>
         /// <returns>A new `MemoryStream` object.</returns>
-        public async Task<Stream> CopyAsync()
+        public async Task<MemoryStream> CopyAsync(CancellationToken cancellationToken = default)
         {
             Guard.AgainstNull(stream);
 
-            MemoryStream result;
-
             if (stream is MemoryStream ms && ms.TryGetBuffer(out var buffer))
             {
-                result = new(buffer.Array ?? throw new InvalidOperationException(Resources.CopyBufferArrayException), buffer.Offset, (int)ms.Length, false, true);
+                return new(buffer.Array ?? throw new InvalidOperationException(Resources.CopyBufferArrayException), buffer.Offset, (int)ms.Length, false, true);
             }
-            else
+
+            var result = new MemoryStream(stream is { CanSeek: true, Length: <= int.MaxValue } ? (int)stream.Length : 0);
+
+            if (stream.CanSeek)
             {
-                result = new() { Capacity = (int)stream.Length };
-
                 var originalPosition = stream.Position;
-
                 try
                 {
                     stream.Seek(0, SeekOrigin.Begin);
-
-                    await stream.CopyToAsync(result).ConfigureAwait(false);
-
+                    await stream.CopyToAsync(result, cancellationToken).ConfigureAwait(false);
                     result.Seek(0, SeekOrigin.Begin);
                 }
                 finally
                 {
                     stream.Seek(originalPosition, SeekOrigin.Begin);
                 }
+            }
+            else
+            {
+                await stream.CopyToAsync(result, cancellationToken).ConfigureAwait(false);
+                result.Seek(0, SeekOrigin.Begin);
             }
 
             return result;
@@ -49,12 +49,11 @@ public static class StreamExtensions
         /// <summary>
         ///     Creates an array of bytes from the given stream.  The stream position is reset once the operation has completed.
         /// </summary>
-        /// <param name="stream">Input stream</param>
         /// <returns>An array of bytes</returns>
         public async Task<byte[]> ToBytesAsync()
         {
-            using var result = (MemoryStream)await Guard.AgainstNull(stream).CopyAsync();
-            return await Task.FromResult(result.ToArray());
+            using var result = await Guard.AgainstNull(stream).CopyAsync();
+            return result.ToArray();
         }
     }
 }
