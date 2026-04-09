@@ -1,6 +1,6 @@
-using Shuttle.Core.Contract;
+using Shuttle.Contract;
 
-namespace Shuttle.Core.Streams;
+namespace Shuttle.Streams;
 
 public static class StreamExtensions
 {

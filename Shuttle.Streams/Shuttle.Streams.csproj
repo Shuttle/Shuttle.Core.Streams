@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shuttle.Core.Contract" Version="21.0.1-rc3" />
+    <PackageReference Include="Shuttle.Contract" Version="21.0.1-rc3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,8 +34,8 @@
   <PropertyGroup>
     <Description>Stream infrastructure utilities.</Description>
     <Version>21.0.1-rc3</Version>
-    <PackageProjectUrl>https://github.com/shuttle/Shuttle.Core.Streams</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/shuttle/Shuttle.Core.Streams.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/shuttle/Shuttle.Streams</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/shuttle/Shuttle.Streams.git</RepositoryUrl>
     <PackageTags>shuttle stream</PackageTags>
     <Authors>Eben Roux</Authors>
     <Company>Shuttle</Company>

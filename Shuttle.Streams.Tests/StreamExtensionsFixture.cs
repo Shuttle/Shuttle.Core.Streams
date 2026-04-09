@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Shuttle.Core.Streams.Tests;
+namespace Shuttle.Streams.Tests;
 
 [TestFixture]
 public class StreamExtensionsFixture
