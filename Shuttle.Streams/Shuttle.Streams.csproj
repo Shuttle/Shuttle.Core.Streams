@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Shuttle.Contract" Version="21.0.1-rc3" />
+    <PackageReference Include="Shuttle.Contract" Version="21.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +33,7 @@
 
   <PropertyGroup>
     <Description>Stream infrastructure utilities.</Description>
-    <Version>21.0.1-rc3</Version>
+    <Version>21.0.1</Version>
     <PackageProjectUrl>https://github.com/shuttle/Shuttle.Streams</PackageProjectUrl>
     <RepositoryUrl>https://github.com/shuttle/Shuttle.Streams.git</RepositoryUrl>
     <PackageTags>shuttle stream</PackageTags>
